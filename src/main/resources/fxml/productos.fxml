@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../static/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sabana.mrp1.fxcontrollers.ProductosController">
    <left>
@@ -61,4 +70,200 @@
          </children>
       </VBox>
    </left>
+   <center>
+      <StackPane>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <children>
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="74.0" spacing="6.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#newProducto" prefHeight="25.0" prefWidth="255.0" styleClass="btn-green" text="Nuevo Producto">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#deleteSelectedProduct" prefHeight="25.0" prefWidth="255.0" styleClass="btn-red" text="Eliminar selección">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <TableView fx:id="productosTable" prefHeight="651.0" prefWidth="1130.0" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </padding>
+            </VBox>
+            <VBox fx:id="newProductoModal" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: rgba(0,0,0,0.3);" visible="false">
+               <children>
+                  <Group>
+                     <children>
+                        <Rectangle fill="#68a46b" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="500.0" />
+                        <Text fill="WHITE" layoutX="120.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevo Producto">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Rectangle fill="WHITE" height="500.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="500.0" />
+                        <Button layoutX="50.0" layoutY="473.0" mnemonicParsing="false" onAction="#acceptNewProduct" prefWidth="150.0" style="-fx-background-radius: 30; -fx-border-radius: 30;" styleClass="btn-green" text="Aceptar">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="300.0" layoutY="473.0" mnemonicParsing="false" onAction="#cancelNewProduct" prefWidth="150.0" style="-fx-background-radius: 30; -fx-border-radius: 30;" styleClass="btn-red" text="Cancelar">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <VBox alignment="CENTER" prefHeight="470.0" prefWidth="500.0" spacing="5.0">
+                           <children>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <TextField fx:id="nombreProductoField" prefWidth="300.0" promptText="Nombre" style="-fx-background-radius: 30; -fx-border-radius: 30;">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </TextField>
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Precio de venta">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <Spinner fx:id="precioVentaProductoSpinner" editable="true" prefWidth="200.0" />
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Existencias">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <Spinner fx:id="existenciasProductoSpinner" editable="true" prefWidth="200.0" />
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="ingredienteComboBox" prefWidth="166.0" promptText="Seleccionar ingrediente" />
+                                    <Spinner fx:id="cantidadIngredienteSpinner" editable="true" prefWidth="75.0" />
+                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#addIngrediente" style="-fx-background-radius: 50; -fx-border-radius: 50;" styleClass="btn-add" text="+" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Arial" size="18.0" />
+                                       </font>
+                                    </Button>
+                                    <Line endY="30.0" stroke="#c6c6c6" />
+                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#newIngrediente" style="-fx-background-radius: 50; -fx-border-radius: 50;" styleClass="btn-add" text="Crear ingrediente" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Arial" size="18.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <TableView fx:id="ingredientesProductoTable" prefHeight="315.0" prefWidth="200.0" />
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </Group>
+               </children>
+            </VBox>
+            <VBox fx:id="newIngredienteModal" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Group>
+                     <children>
+                        <Rectangle fill="#68a46b" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="500.0" />
+                        <Text fill="WHITE" layoutX="102.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nuevo Ingrediente">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Rectangle fill="WHITE" height="500.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="500.0" />
+                        <Button layoutX="50.0" layoutY="473.0" mnemonicParsing="false" onAction="#acceptNewIngrediente" prefWidth="150.0" style="-fx-background-radius: 30; -fx-border-radius: 30;" styleClass="btn-green" text="Aceptar">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="300.0" layoutY="473.0" mnemonicParsing="false" onAction="#cancelNewIngrediente" prefWidth="150.0" style="-fx-background-radius: 30; -fx-border-radius: 30;" styleClass="btn-red" text="Cancelar">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <VBox alignment="TOP_CENTER" prefHeight="470.0" prefWidth="500.0" spacing="5.0">
+                           <children>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <TextField fx:id="nombreIngredienteField" prefWidth="300.0" promptText="Nombre" style="-fx-background-radius: 30; -fx-border-radius: 30;">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </TextField>
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <TextField fx:id="metricaIngredienteField" prefWidth="300.0" promptText="Métrica" style="-fx-background-radius: 30; -fx-border-radius: 30;">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </TextField>
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Precio unitario">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <Spinner fx:id="precioUnitarioIngredienteSpinner" editable="true" prefWidth="200.0" />
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Existencias">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <Spinner fx:id="existenciasIngredienteSpinner" editable="true" prefWidth="200.0" />
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" spacing="10.0" />
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </Group>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
 </BorderPane>

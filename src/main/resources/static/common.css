@@ -21,3 +21,54 @@
     -fx-background-color: #03a8f8;
     -fx-text-fill: white;
 }
+
+.btn-green {
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-background-color: rgba(151,191,45,1);
+    -fx-padding: 10px 20px;
+    -fx-text-alignment: center;
+    -fx-text-fill: white;
+}
+
+.btn-green:hover {
+    -fx-background-color: linear-gradient(to top, rgb(123, 163, 44) 2%, rgb(151,191,45) 70%);
+}
+
+.btn-add {
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-background-color: rgba(151,191,45,1);
+    -fx-text-alignment: center;
+    -fx-text-fill: white;
+}
+
+.btn-add:hover {
+    -fx-background-color: linear-gradient(to top, rgb(123, 163, 44) 2%, rgb(151,191,45) 70%);
+}
+
+.btn-blue {
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-background-color: rgb(60, 124, 179);
+    -fx-padding: 10px 20px;
+    -fx-text-alignment: center;
+    -fx-text-fill: white;
+}
+
+.btn-blue:hover {
+    -fx-background-color: linear-gradient(to top, rgb(39, 94, 125) 2%, rgba(60,124,179,1) 70%);;
+}
+
+.btn-red {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-background-color: rgb(255, 56, 86);
+    -fx-padding: 10px 20px;
+    -fx-text-alignment: center;
+    -fx-text-fill: white;
+}
+
+.btn-red:hover {
+    -fx-background-color: linear-gradient(to top, rgb(217, 44, 73) 2%, rgb(255, 56, 86) 70%);
+}

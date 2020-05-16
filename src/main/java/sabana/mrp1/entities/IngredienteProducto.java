@@ -13,11 +13,18 @@ import javax.persistence.*;
 @Table(name = "relacion_ingrediente_producto", schema = "mrp")
 public class IngredienteProducto {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id @Column(name = "rel_ing_prod_id") Integer relIngProdId;
 
-    private @Column(name = "producto") Integer productoId;
+    private @ManyToOne @JoinColumn(name = "producto") Producto producto;
     private @ManyToOne @JoinColumn(name = "ingrediente") Ingrediente ingrediente;
-    private @Column(name = "cantidad") String cantidad;
-    private @Column(name = "metrica") String metrica;
+    private @Column(name = "cantidad") Integer cantidad;
 
+    public String getIngredienteNombre() {
+        return ingrediente.getNombre();
+    }
+
+    public String getMetrica() {
+        return ingrediente.getMetrica();
+    }
 }
