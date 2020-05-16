@@ -27,7 +27,6 @@ create table relacion_ingrediente_producto
 	producto int not null,
 	ingrediente int not null,
 	cantidad int not null,
-	metrica text not null,
 	constraint relacion_ingrediente_producto_pk
 		primary key (rel_ing_prod_id),
 	constraint relacion_ingrediente_producto_ingrediente_ingrediente_id_fk
