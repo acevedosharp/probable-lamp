@@ -1,0 +1,23 @@
+.btn-selected {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-unselected {
+    -fx-background-color: rgb(27, 75, 118);
+}
+
+.table-view {
+    -fx-font-size: 20px;
+}
+
+.table-view.cell {
+    -fx-text-alignment: center;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header .label,
+.table-view .column-header-background .filler {
+    -fx-background-color: #03a8f8;
+    -fx-text-fill: white;
+}
