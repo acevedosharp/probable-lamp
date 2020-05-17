@@ -1,3 +1,4 @@
+
 create table producto
 (
 	producto_id int auto_increment,
@@ -36,6 +37,7 @@ create table relacion_ingrediente_producto
 		foreign key (producto) references producto (producto_id)
 			on update cascade on delete cascade
 );
+
 
 
 
