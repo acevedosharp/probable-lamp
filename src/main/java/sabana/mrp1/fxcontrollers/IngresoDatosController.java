@@ -12,6 +12,17 @@ public class IngresoDatosController {
         this.context = context;
     }
 
+
+
+
+
+
+
+
+
+
+
+
     // Scene change menu logic
     public void goToProductosModule() {
         context.publishEvent(new SceneChangeEvent("fxml/productos.fxml"));

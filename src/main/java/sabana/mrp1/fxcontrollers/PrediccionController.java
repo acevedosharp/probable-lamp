@@ -12,6 +12,21 @@ public class PrediccionController {
         this.context = context;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Scene change menu logic
     public void goToProductosModule() {
         context.publishEvent(new SceneChangeEvent("fxml/productos.fxml"));
