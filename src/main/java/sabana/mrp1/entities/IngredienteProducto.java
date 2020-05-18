@@ -20,11 +20,4 @@ public class IngredienteProducto {
     private @ManyToOne @JoinColumn(name = "ingrediente") Ingrediente ingrediente;
     private @Column(name = "cantidad") Integer cantidad;
 
-    public String getIngredienteNombre() {
-        return ingrediente.getNombre();
-    }
-
-    public String getMetrica() {
-        return ingrediente.getMetrica();
-    }
 }

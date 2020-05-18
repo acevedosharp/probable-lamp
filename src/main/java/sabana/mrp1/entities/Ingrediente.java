@@ -23,4 +23,5 @@ public class Ingrediente {
     @Override public String toString() {
         return nombre + " (" + metrica + ")";
     }
+
 }
