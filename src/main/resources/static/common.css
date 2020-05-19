@@ -72,3 +72,34 @@
 .btn-red:hover {
     -fx-background-color: linear-gradient(to top, rgb(217, 44, 73) 2%, rgb(255, 56, 86) 70%);
 }
+
+.basic-button {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color:   rgb(69, 69, 69);
+}
+
+.basic-button:hover {
+    -fx-background-color: #fff;
+    -fx-text-fill: black;
+    -fx-border-color:rgb(69, 69, 69);
+}
+
+
+.prediction-button{
+
+    -fx-background-color:#08CBB3;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.prediction-button:hover {
+    -fx-background-color: #fff;
+    -fx-text-fill: black;
+    -fx-border-color:#08CBB3;
+}
