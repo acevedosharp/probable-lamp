@@ -1,3 +1,4 @@
+
 create table producto
 (
 	producto_id int auto_increment,
@@ -26,7 +27,6 @@ create table relacion_ingrediente_producto
 	producto int not null,
 	ingrediente int not null,
 	cantidad int not null,
-	metrica text not null,
 	constraint relacion_ingrediente_producto_pk
 		primary key (rel_ing_prod_id),
 	constraint relacion_ingrediente_producto_ingrediente_ingrediente_id_fk
@@ -60,6 +60,7 @@ create table comportamiento_mes
 		foreign key (registro_ventas) references registro_ventas (inventario_id)
 			on update cascade on delete cascade
 );
+
 
 
 
