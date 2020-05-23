@@ -35,4 +35,8 @@ public class Producto {
             return res.substring(0, res.length() - 2);
         } else return "";
     }
+
+    @Override public String toString() {
+        return nombre;
+    }
 }

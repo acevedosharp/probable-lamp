@@ -1,5 +1,6 @@
 package sabana.mrp1.fxcontrollers;
 
+import javafx.event.ActionEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import sabana.mrp1.events.SceneChangeEvent;
@@ -37,4 +38,5 @@ public class PrediccionController {
     public void goToPrediccionModule() {
         context.publishEvent(new SceneChangeEvent("fxml/prediccion.fxml"));
     }
+
 }

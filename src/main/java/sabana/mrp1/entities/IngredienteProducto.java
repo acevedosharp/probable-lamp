@@ -20,4 +20,8 @@ public class IngredienteProducto {
     private @ManyToOne @JoinColumn(name = "ingrediente") Ingrediente ingrediente;
     private @Column(name = "cantidad") Integer cantidad;
 
+    public String getNombreIngrediente(){
+        return producto.getNombre();
+    }
+
 }

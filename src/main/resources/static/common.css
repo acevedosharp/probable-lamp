@@ -38,12 +38,24 @@
 .btn-add {
     -fx-background-radius: 30;
     -fx-border-radius: 30;
-    -fx-background-color: rgba(151,191,45,1);
+    -fx-background-color:  rgba(151,191,45,1);
     -fx-text-alignment: center;
     -fx-text-fill: white;
 }
 
 .btn-add:hover {
+    -fx-background-color: linear-gradient(to top, rgb(123, 163, 44) 2%, rgb(151,191,45) 70%);
+}
+
+.btn-add1 {
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-background-color:  rgba(0,219,214,1);
+    -fx-text-alignment: center;
+    -fx-text-fill: #000;
+}
+
+.btn-add1:hover {
     -fx-background-color: linear-gradient(to top, rgb(123, 163, 44) 2%, rgb(151,191,45) 70%);
 }
 
@@ -102,4 +114,36 @@
     -fx-background-color: #fff;
     -fx-text-fill: black;
     -fx-border-color:#08CBB3;
+}
+
+.titulo{
+    -fx-border-radius: 50px;
+    -fx-background-radius: 10px;
+}
+
+
+.btn-orange{
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-background-color: rgb(242, 110,62);
+    -fx-padding: 10px 20px;
+    -fx-text-alignment: center;
+    -fx-text-fill: black;
+}
+
+.btn-orange:hover {
+    -fx-background-color: linear-gradient(to top, rgb(242, 110,62) 2%, rgb(255, 56, 86) 70%);
+}
+
+.btn-sky {
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-background-color: rgba(0,219,214,1);
+    -fx-padding: 10px 20px;
+    -fx-text-alignment: center;
+    -fx-text-fill: black;
+}
+
+.btn-sky:hover {
+    -fx-background-color: linear-gradient(to top, rgb(0,219,214) 2%, rgb(34,154,178) 70%);
 }

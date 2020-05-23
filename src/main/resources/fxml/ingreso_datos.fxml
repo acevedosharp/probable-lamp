@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
@@ -19,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxWidth="1408.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1408.0" stylesheets="@../static/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sabana.mrp1.fxcontrollers.IngresoDatosController">
+<BorderPane prefHeight="720.0" prefWidth="1408.0" stylesheets="@../static/common.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sabana.mrp1.fxcontrollers.IngresoDatosController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="150.0" style="-fx-background-color: rgb(27,75,118);">
          <children>
@@ -71,249 +70,139 @@
          </children>
       </VBox>
    </left>
-   <right>
-      <VBox prefHeight="720.0" prefWidth="1257.0" BorderPane.alignment="CENTER">
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="dataEntryGrid" alignment="CENTER" prefHeight="95.0" prefWidth="1258.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="150.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="NEVER" />
-               </rowConstraints>
+            <VBox prefHeight="720.0" prefWidth="1257.0" StackPane.alignment="CENTER">
                <children>
-                  <StackPane GridPane.columnIndex="1">
+                  <HBox prefHeight="56.0" prefWidth="1258.0">
                      <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="JAN" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
+                        <Button mnemonicParsing="false" onAction="#ingresarDatos" prefHeight="42.0" prefWidth="210.0" styleClass="basic-button" text="Ingresar datos">
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="210.0" styleClass="prediction-button" text="Proyectar">
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="2">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="FEB" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane prefHeight="48.0" prefWidth="98.0" GridPane.columnIndex="3">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="MAR" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane maxHeight="60.0" prefHeight="60.0" prefWidth="171.0">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="144.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUCTO" textAlignment="CENTER" wrappingWidth="111.20001220703125">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="4">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="APR" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="5">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="MAY" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="6">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="JUN" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="7">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="JUL" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="8">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="AUG" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="9">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="SEP" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="10">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="OCT" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="11">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="NOV" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
-                  <StackPane GridPane.columnIndex="12">
-                     <children>
-                        <Rectangle arcHeight="5.0" fill="#3bddcd" height="30.0" stroke="WHITE" strokeType="INSIDE" width="98.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="DEC" textAlignment="CENTER" wrappingWidth="96.0">
-                           <font>
-                              <Font name="JetBrains Mono Regular" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </StackPane>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <TableView prefHeight="645.0" prefWidth="1258.0">
+                    <columns>
+                      <TableColumn prefWidth="205.0" text="Producto" />
+                      <TableColumn minWidth="0.0" prefWidth="87.0" text="J" />
+                        <TableColumn prefWidth="87.0" text="F" />
+                        <TableColumn prefWidth="87.0" text="M" />
+                        <TableColumn prefWidth="87.0" text="A" />
+                        <TableColumn prefWidth="87.0" text="MY" />
+                        <TableColumn prefWidth="87.0" text="J" />
+                        <TableColumn prefWidth="87.0" text="JL" />
+                        <TableColumn prefWidth="87.0" text="A" />
+                        <TableColumn prefWidth="87.0" text="S" />
+                        <TableColumn minWidth="20.0" prefWidth="87.0" text="O" />
+                        <TableColumn minWidth="9.3333740234375" prefWidth="87.0" text="N" />
+                        <TableColumn prefWidth="87.0" text="D" />
+                    </columns>
+                  </TableView>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </GridPane>
-            <HBox alignment="CENTER" maxHeight="50.0" prefHeight="100.0" prefWidth="0.0">
+            </VBox>
+            <VBox fx:id="newRegistroDatos" alignment="CENTER" prefHeight="709.0" prefWidth="1130.0" style="-fx-background-color: rgba(0,0,0,0.3);" visible="false">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Predicción año anterior: " wrappingWidth="242.36460852622986">
-                     <font>
-                        <Font name="Tw Cen MT" size="22.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Text>
-                  <Text fx:id="existsPreviousPredictionText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="NO" wrappingWidth="32.13690185546875">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Text>
+                  <Group>
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff6e00" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="titulo" width="500.0" />
+                        <Text fill="WHITE" layoutX="120.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ventas producto">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+                  <Group>
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="540.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="500.0" />
+                        <Button layoutX="77.0" layoutY="473.0" mnemonicParsing="false" onAction="#acceptNewRegister" prefWidth="150.0" style="-fx-background-radius: 15; -fx-border-radius: 15;" styleClass="btn-sky" text="Aceptar">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="287.0" layoutY="473.0" mnemonicParsing="false" onAction="#cancelNewRegister" prefWidth="150.0" style="-fx-background-radius: 15; -fx-border-radius: 15;" styleClass="btn-orange" text="Cancelar">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                        <VBox alignment="CENTER" prefHeight="470.0" prefWidth="500.0" spacing="5.0">
+                           <children>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="393.0">
+                                 <children>
+                                    <ComboBox fx:id="productos" prefHeight="38.0" prefWidth="308.0" promptText="Selecionar el Producto">
+                                       <HBox.margin>
+                                          <Insets left="100.0" />
+                                       </HBox.margin>
+                                    </ComboBox>
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="96.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pedidos" wrappingWidth="77.10394287109375">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="100.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <Spinner fx:id="numeroPedidos" editable="true" maxWidth="220.0" prefHeight="26.0" prefWidth="181.0">
+                                       <HBox.margin>
+                                          <Insets left="50.0" right="-14.0" />
+                                       </HBox.margin>
+                                    </Spinner>
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Rectangle fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE" width="110.0" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="tipoRegistro" prefWidth="150.0" promptText="Tipo" />
+                                    <ComboBox fx:id="mesRegistro" prefWidth="166.0" promptText="Seleccionar mes">
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin></ComboBox>
+                                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#addRegistro" prefHeight="43.0" prefWidth="36.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" styleClass="btn-add1" text="+">
+                                       <font>
+                                          <Font name="Arial" size="24.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <TableView fx:id="ingredientesProductoTable1" prefHeight="315.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn prefWidth="250.13336789608002" text="Mes" />
+                                    <TableColumn prefWidth="249.066650390625" text="Pedidos" />
+                                 </columns></TableView>
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </Group>
                </children>
-               <VBox.margin>
-                  <Insets top="100.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Real año anterior: ">
-                     <font>
-                        <Font name="Tw Cen MT" size="22.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="60.0" />
-                     </HBox.margin>
-                  </Text>
-                  <Text fx:id="existsPreviousRealText" fill="#139028" strokeType="OUTSIDE" strokeWidth="0.0" text="SÍ" wrappingWidth="30.7939453125">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </Text>
-               </children>
-            </HBox>
-            <HBox prefHeight="54.0" prefWidth="1398.0">
-               <children>
-                  <Label text="Evento probabilistico: ">
-                     <font>
-                        <Font name="Tw Cen MT" size="22.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="eventoProbabilistico" prefHeight="41.0" prefWidth="175.0" />
-                  <ComboBox fx:id="typeCombobox" prefHeight="40.0" prefWidth="197.0">
-                     <HBox.margin>
-                        <Insets left="150.0" />
-                     </HBox.margin>
-                  </ComboBox>
-                  <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="210.0" styleClass="basic-button" text="Ingresar datos">
-                     <HBox.margin>
-                        <Insets left="250.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets top="100.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox prefHeight="57.0" prefWidth="1398.0">
-               <children>
-                  <Label text="Evento deterministico: ">
-                     <font>
-                        <Font name="Tw Cen MT" size="22.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="eventoDeterministico" prefHeight="41.0" prefWidth="175.0" />
-                  <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="210.0" styleClass="prediction-button" text="Proyectar">
-                     <HBox.margin>
-                        <Insets left="600.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
+            </VBox>
          </children>
-      </VBox>
-   </right>
+      </StackPane>
+   </center>
 </BorderPane>

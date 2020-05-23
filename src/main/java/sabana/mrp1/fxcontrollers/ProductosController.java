@@ -152,6 +152,7 @@ public class ProductosController {
         existenciasIngredienteSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 2147483647, 0, 1));
         precioUnitarioIngredienteSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 2147483647, 50, 50));
     }
+
     private void setUpProductosTable() {
         TableColumn<Producto, String> nombreCol = new TableColumn<>("Nombre");
         nombreCol.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -178,15 +179,15 @@ public class ProductosController {
     }
     private void setUpIngredientesProductoTable() {
         TableColumn<IngredienteProducto, String> ingredienteCol = new TableColumn<>("Ingrediente");
-        ingredienteCol.setCellValueFactory(new PropertyValueFactory<>("ingredienteNombre"));
+        ingredienteCol.setCellValueFactory(new PropertyValueFactory<IngredienteProducto, String>("ingredienteNombre"));
         ingredienteCol.setPrefWidth(300);
 
         TableColumn<IngredienteProducto, String> cantidadCol = new TableColumn<>("Cantidad");
-        cantidadCol.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        cantidadCol.setCellValueFactory(new PropertyValueFactory<IngredienteProducto, String>("cantidad"));
         cantidadCol.setPrefWidth(100);
 
         TableColumn<IngredienteProducto, String> metricaCol = new TableColumn<>("Métrica");
-        metricaCol.setCellValueFactory(new PropertyValueFactory<>("metrica"));
+        metricaCol.setCellValueFactory(new PropertyValueFactory<IngredienteProducto, String>("metrica"));
         metricaCol.setPrefWidth(95);
 
         //noinspection unchecked
