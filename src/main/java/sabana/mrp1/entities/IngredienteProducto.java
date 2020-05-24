@@ -24,4 +24,6 @@ public class IngredienteProducto {
         return ingrediente.getNombre();
     }
 
+    public String getMetricaIngrediente() { return ingrediente.getMetrica(); }
+
 }

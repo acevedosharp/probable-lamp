@@ -29,7 +29,6 @@ public class IngresoDatosController {
     private final RegistroVentasRepository registroVentasRepository;
     private final ProductoRepository productRepository;
 
-
     public @FXML VBox newRegistroDatos;
     public @FXML ComboBox productos;
     public @FXML ComboBox tipoRegistro;
@@ -40,9 +39,6 @@ public class IngresoDatosController {
     private final ObservableList<Producto> productData = FXCollections.observableArrayList();
     private final ObservableList<String> tipos = FXCollections.observableArrayList();
     private final ObservableList<String> meses = FXCollections.observableArrayList();
-
-
-
 
     public IngresoDatosController(ApplicationContext context, RegistroVentasRepository registroVentasRepository, ProductoRepository productRepository) {
         this.context = context;
@@ -57,10 +53,7 @@ public class IngresoDatosController {
 
     }
 
-
-
     public @FXML void ingresarDatos(){
-
         newRegistroDatos.setVisible(true);
     }
 

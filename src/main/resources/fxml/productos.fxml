@@ -177,7 +177,7 @@
                   </Group>
                </children>
             </VBox>
-            <VBox fx:id="newIngredienteModal" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox fx:id="newIngredienteModal" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Group>
                      <children>

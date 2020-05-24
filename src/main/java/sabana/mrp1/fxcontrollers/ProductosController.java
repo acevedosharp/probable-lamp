@@ -187,7 +187,7 @@ public class ProductosController {
         cantidadCol.setPrefWidth(100);
 
         TableColumn<IngredienteProducto, String> metricaCol = new TableColumn<>("Métrica");
-        metricaCol.setCellValueFactory(new PropertyValueFactory<>("metrica"));
+        metricaCol.setCellValueFactory(new PropertyValueFactory<>("metricaIngrediente"));
         metricaCol.setPrefWidth(95);
 
         //noinspection unchecked
