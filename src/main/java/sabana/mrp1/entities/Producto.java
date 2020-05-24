@@ -36,8 +36,8 @@ public class Producto {
         } else return "";
     }
 
-    public String getNombre(){
-        return nombre;
+    public String getNombreProducto(){
+        return getNombre();
     }
 
     @Override public String toString() {
