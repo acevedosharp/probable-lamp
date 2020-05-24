@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -32,7 +33,6 @@ public class IngresoDatosController {
     private final ProductoRepository productRepository;
     private final ComportamientoMesRepository comportamientoRepository;
 
-
     public @FXML VBox newRegistroDatos;
     public @FXML ComboBox<Producto> productos;
     public @FXML ComboBox<String> tipoRegistro;
@@ -40,7 +40,8 @@ public class IngresoDatosController {
     public @FXML ComboBox<String> tiempoRegistro;
     public @FXML Spinner<Integer> numeroPedidos;
     private List<ComportamientoMes> pedidosPorMes;
-    public @FXML TableView<ComportamientoMes> comportamientoProducto;
+    public @FXML
+    TableView<ComportamientoMes> comportamientoProducto;
     public @FXML TableView<RegistroVentas> registroVentas;
 
     private final ObservableList<RegistroVentas> RegistroVentasData = FXCollections.observableArrayList();
@@ -68,8 +69,6 @@ public class IngresoDatosController {
         setUpRegistroProducto();
 
     }
-
-
 
     public @FXML void ingresarDatos(){
 

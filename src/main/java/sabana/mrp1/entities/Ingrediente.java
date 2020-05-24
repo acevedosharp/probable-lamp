@@ -20,6 +20,9 @@ public class Ingrediente {
     private @Column(name = "precio_unidad") Integer precioUnidad;
     private @Column(name = "existencias") Integer existencias;
 
+    public String getNombre(){
+        return nombre;
+    }
 
 
     @Override public String toString() {

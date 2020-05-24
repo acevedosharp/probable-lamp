@@ -21,7 +21,9 @@ public class IngredienteProducto {
     private @Column(name = "cantidad") Integer cantidad;
 
     public String getNombreIngrediente(){
-        return producto.getNombre();
+        return ingrediente.getNombre();
     }
+
+    public String getMetricaIngrediente() { return ingrediente.getMetrica(); }
 
 }

@@ -40,7 +40,8 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
             stage.show();
             stage.setMinWidth(1408);
             stage.setMinHeight(720);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
             // throw new RuntimeException();
         }
