@@ -34,6 +34,46 @@ public class RegistroVentas {
         return comportamientosMes.get(1).getVentas();
     }
 
+    public Integer getMarzo(){
+        return comportamientosMes.get(2).getVentas();
+    }
+
+    public Integer getAbril(){
+        return comportamientosMes.get(3).getVentas();
+    }
+
+    public Integer getMayo(){
+        return comportamientosMes.get(4).getVentas();
+    }
+
+    public Integer getJunio(){
+        return comportamientosMes.get(5).getVentas();
+    }
+
+    public Integer getJulio(){
+        return comportamientosMes.get(6).getVentas();
+    }
+
+    public Integer getAgosto(){
+        return comportamientosMes.get(7).getVentas();
+    }
+
+    public Integer getSeptiembre(){
+        return comportamientosMes.get(8).getVentas();
+    }
+
+    public Integer getOctubre(){
+        return comportamientosMes.get(9).getVentas();
+    }
+
+    public Integer getNoviembre(){
+        return comportamientosMes.get(10).getVentas();
+    }
+
+    public Integer getDiciembre(){
+        return comportamientosMes.get(11).getVentas();
+    }
+
     @Override public String toString() {
         StringBuilder res = new StringBuilder();
 

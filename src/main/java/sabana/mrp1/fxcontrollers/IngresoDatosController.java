@@ -35,20 +35,27 @@ public class IngresoDatosController {
     private final ComportamientoMesRepository comportamientoRepository;
     private final RegistroVentasPersistRepository registroVentasPersist;
 
-    public @FXML VBox newRegistroDatos;
-    public @FXML ComboBox<Producto> productos;
-    public @FXML ComboBox<String> tipoRegistro;
-    public @FXML ComboBox<Integer> mesRegistro;
-    public @FXML ComboBox<String> tiempoRegistro;
-    public @FXML Spinner<Integer> numeroPedidos;
+    public @FXML
+    VBox newRegistroDatos;
+    public @FXML
+    ComboBox<Producto> productos;
+    public @FXML
+    ComboBox<String> tipoRegistro;
+    public @FXML
+    ComboBox<Integer> mesRegistro;
+    public @FXML
+    ComboBox<String> tiempoRegistro;
+    public @FXML
+    Spinner<Integer> numeroPedidos;
     private List<ComportamientoMes> pedidosPorMes;
     public @FXML
     TableView<ComportamientoMes> comportamientoProducto;
-    public @FXML TableView<RegistroVentas> registroVentas;
+    public @FXML
+    TableView<RegistroVentas> registroVentas;
 
     private final ObservableList<RegistroVentas> registroVentasData = FXCollections.observableArrayList();
     private final ObservableList<Producto> productData = FXCollections.observableArrayList();
-    private final ObservableList<ComportamientoMes> comportamientoData=FXCollections.observableArrayList();
+    private final ObservableList<ComportamientoMes> comportamientoData = FXCollections.observableArrayList();
     private final ObservableList<String> tipos = FXCollections.observableArrayList();
     private final ObservableList<String> tiempo = FXCollections.observableArrayList();
     private final ObservableList<Integer> meses = FXCollections.observableArrayList();
@@ -58,65 +65,118 @@ public class IngresoDatosController {
     public IngresoDatosController(ApplicationContext context, RegistroVentasRepository registroVentasRepository, ProductoRepository productRepository, ComportamientoMesRepository comportamientoRepository, RegistroVentasPersistRepository registroVentasPersist) {
         this.context = context;
         this.registroVentasRepository = registroVentasRepository;
-        this.productRepository=productRepository;
-        this.comportamientoRepository=comportamientoRepository;
-        this.registroVentasPersist=registroVentasPersist;
+        this.productRepository = productRepository;
+        this.comportamientoRepository = comportamientoRepository;
+        this.registroVentasPersist = registroVentasPersist;
     }
 
 
     public void initialize() {
-       /** System.out.println(registroVentasRepository.findAll().get(0));*/
+        /** System.out.println(registroVentasRepository.findAll().get(0));*/
         resetComboBox();
         setUpSpinners();
         setUpComportamientoTable();
         setUpRegistroProducto();
+        updateRegistroData();
 
     }
 
-    public @FXML void ingresarDatos(){
+    public @FXML
+    void ingresarDatos() {
 
         newRegistroDatos.setVisible(true);
     }
 
-    public @FXML void acceptNewRegister(ActionEvent actionEvent) {
-        updateAllSpinnersTypedValues();
-
-        RegistroVentasPersist ventas= new RegistroVentasPersist(
-         null,
-         tipoRegistro.getValue(),
-                tiempoRegistro.getValue(),
-                productos.getValue());
-
-
-        Integer id = registroVentasPersist.saveAndFlush(ventas).getInventarioId();
-
-        for (ComportamientoMes comportamiento : comportamientoData) {
-            //noinspection OptionalGetWithoutIsPresent
-            comportamiento.setRegistroVentas(registroVentasRepository.findById(id).get());
-            comportamientoRepository.save(comportamiento);
-        }
-
-        registroVentasData.setAll(registroVentasRepository.findAll());
+    public @FXML void eliminarRegistros(){
+        RegistroVentas registro=registroVentas.getSelectionModel().getSelectedItem();
+        registroVentasRepository.delete(registro);
+        updateRegistroData();
         resetComboBox();
-        clearNewRegistroDatosAndHide();
-
-        System.out.println(comportamientoData.toString());
+        tipoRegistro.setDisable(false);
+        tiempoRegistro.setDisable(false);
 
     }
 
-    public @FXML void cancelNewRegister(ActionEvent actionEvent) { clearNewRegistroDatosAndHide(); }
-
-    public @FXML void addRegistro(ActionEvent actionEvent) {
+    public @FXML
+    void acceptNewRegister(ActionEvent actionEvent) {
         updateAllSpinnersTypedValues();
-        ComportamientoMes pxm= new ComportamientoMes(
-                null,
-                null,
-                mesRegistro.getValue(),
-                numeroPedidos.getValue());
 
-        comportamientoData.add(pxm);
-        updateComboBox(mesRegistro.getValue());
-        System.out.println(comportamientoData.toString());
+
+        if (comportamientoData.size() == 12) {
+            RegistroVentasPersist ventas = new RegistroVentasPersist(
+                    null,
+                    tipoRegistro.getValue(),
+                    tiempoRegistro.getValue(),
+                    productos.getValue());
+
+
+            Integer id = registroVentasPersist.saveAndFlush(ventas).getInventarioId();
+
+            for (ComportamientoMes comportamiento : comportamientoData) {
+                //noinspection OptionalGetWithoutIsPresent
+                comportamiento.setRegistroVentas(registroVentasRepository.findById(id).get());
+                comportamientoRepository.save(comportamiento);
+            }
+
+            registroVentasData.setAll(registroVentasRepository.findAll());
+            updateComboBoxCompleto(productos.getValue());
+            clearNewRegistroDatosAndHide();
+            resetComboBox();
+            productos.setDisable(false);
+
+        } else {
+            System.out.println("Complete todos los registros, hay: " + comportamientoData.size());
+        }
+
+        if(registroVentasData.size()==productData.size()){
+            tipoRegistro.setDisable(false);
+            tiempoRegistro.setDisable(false);
+        }
+
+        System.out.println(comportamientoData.toString() + comportamientoData.size());
+
+    }
+
+    public @FXML
+    void cancelNewRegister(ActionEvent actionEvent) {
+        resetComboBoxAll();
+        productos.setDisable(false);
+        clearNewRegistroDatosAndHide();
+
+    }
+
+    public @FXML
+    void addRegistro(ActionEvent actionEvent) {
+        updateAllSpinnersTypedValues();
+        if (mesRegistro.getValue() == null) {
+            System.out.println("Seleccione el mes");
+        } else if (tiempoRegistro.getValue() == null) {
+            System.out.println("Seleccione el tiempo");
+        } else if (tipoRegistro.getValue() == null) {
+            System.out.println("Seleccione el tipo");
+        } else if (productos.getValue() == null) {
+            System.out.println("Seleccione el producto");
+        } else {
+            productos.setDisable(true);
+            tipoRegistro.setDisable(true);
+            tiempoRegistro.setDisable(true);
+
+            ComportamientoMes pxm = new ComportamientoMes(
+                    null,
+                    null,
+                    mesRegistro.getValue(),
+                    numeroPedidos.getValue());
+
+            comportamientoData.add(pxm);
+            updateComboBox(mesRegistro.getValue());
+            System.out.println(comportamientoData.toString());
+
+        }
+    }
+
+    public @FXML
+    void proyectarDemanda() {
+
 
     }
 
@@ -149,19 +209,69 @@ public class IngresoDatosController {
         Febrero.setCellValueFactory(new PropertyValueFactory<>("febrero"));
         Febrero.setPrefWidth(87);
 
+        TableColumn<RegistroVentas, String> Marzo = new TableColumn<>("MAR");
+        Marzo.setCellValueFactory(new PropertyValueFactory<>("marzo"));
+        Marzo.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Abril = new TableColumn<>("ABR");
+        Abril.setCellValueFactory(new PropertyValueFactory<>("abril"));
+        Abril.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Mayo = new TableColumn<>("MAY");
+        Mayo.setCellValueFactory(new PropertyValueFactory<>("mayo"));
+        Mayo.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Junio = new TableColumn<>("JUN");
+        Junio.setCellValueFactory(new PropertyValueFactory<>("junio"));
+        Junio.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Julio = new TableColumn<>("JUL");
+        Julio.setCellValueFactory(new PropertyValueFactory<>("julio"));
+        Julio.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Agosto = new TableColumn<>("AUG");
+        Agosto.setCellValueFactory(new PropertyValueFactory<>("agosto"));
+        Agosto.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Septiembre = new TableColumn<>("SEP");
+        Septiembre.setCellValueFactory(new PropertyValueFactory<>("septiembre"));
+        Septiembre.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Octubre = new TableColumn<>("OCT");
+        Octubre.setCellValueFactory(new PropertyValueFactory<>("octubre"));
+        Octubre.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Noviembre = new TableColumn<>("NOV");
+        Noviembre.setCellValueFactory(new PropertyValueFactory<>("noviembre"));
+        Noviembre.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Diciembre = new TableColumn<>("DEC");
+        Diciembre.setCellValueFactory(new PropertyValueFactory<>("diciembre"));
+        Diciembre.setPrefWidth(87);
+
         //noinspection unchecked
-        registroVentas.getColumns().addAll(NombreProducto,Enero,Febrero);
+        registroVentas.getColumns().addAll(NombreProducto, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre);
         registroVentas.setItems(registroVentasData);
+
+        if (registroVentasData.size() != 0)
+            registroVentas.getSelectionModel().select(0);
     }
 
     private void updateRegistroData() {
-        registroData.setAll(registroVentasRepository.findAll());
-        if (productData.size() != 0)
+        registroVentasData.setAll(registroVentasRepository.findAll());
+        if (registroVentasData.size() != 0)
             registroVentas.getSelectionModel().select(0);
     }
 
 
     private void clearNewRegistroDatosAndHide() {
+
+        newRegistroDatos.setVisible(false);
+        setSpinnerValue(numeroPedidos, 50);
+        comportamientoData.clear();
+    }
+
+    private void hideModal() {
 
         newRegistroDatos.setVisible(false);
         setSpinnerValue(numeroPedidos, 50);
@@ -174,12 +284,29 @@ public class IngresoDatosController {
     private void resetComboBox() {
         productos.setItems(productData);
         tipos.setAll("Prediccion", "Real");
-        tiempo.setAll("Anterior","futuro");
-        meses.setAll(1,2,3,4,5,6,7,8,9,10,11,12);
+        tiempo.setAll("Anterior", "futuro");
+        meses.setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         tipoRegistro.setItems(tipos);
         mesRegistro.setItems(meses);
         tiempoRegistro.setItems(tiempo);
         productData.setAll(productRepository.findAll());
+        productos.getSelectionModel().clearSelection();
+    }
+
+    private void resetComboBoxAll() {
+        productos.setItems(productData);
+        tipos.setAll("Prediccion", "Real");
+        tiempo.setAll("Anterior", "futuro");
+        meses.setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+
+        mesRegistro.setItems(meses);
+        tiempoRegistro.setItems(tiempo);
+        productData.setAll(productRepository.findAll());
+        productos.getSelectionModel().clearSelection();
+    }
+
+    private void updateComboBoxCompleto(Producto p) {
+        productData.remove(p);
         productos.getSelectionModel().clearSelection();
     }
 
@@ -188,11 +315,11 @@ public class IngresoDatosController {
 
     }
 
-    public Producto getProduct(String nombre){
-        Producto product=new Producto();
-        for(int i=0; i < productData.size();i++) {
+    public Producto getProduct(String nombre) {
+        Producto product = new Producto();
+        for (int i = 0; i < productData.size(); i++) {
             if (nombre == productData.toString()) {
-                product=productData.get(i);
+                product = productData.get(i);
             }
         }
         return product;
@@ -214,16 +341,15 @@ public class IngresoDatosController {
     }
 
 
-
-
-
     // Scene change menu logic
     public void goToProductosModule() {
         context.publishEvent(new SceneChangeEvent("fxml/productos.fxml"));
     }
+
     public void goToRegistroModule() {
         context.publishEvent(new SceneChangeEvent("fxml/ingreso_datos.fxml"));
     }
+
     public void goToPrediccionModule() {
         context.publishEvent(new SceneChangeEvent("fxml/prediccion.fxml"));
     }
