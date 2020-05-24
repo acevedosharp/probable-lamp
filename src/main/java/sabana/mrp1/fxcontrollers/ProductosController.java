@@ -179,7 +179,7 @@ public class ProductosController {
     }
     private void setUpIngredientesProductoTable() {
         TableColumn<IngredienteProducto, String> ingredienteCol = new TableColumn<>("Ingrediente");
-        ingredienteCol.setCellValueFactory(new PropertyValueFactory<IngredienteProducto, String>("ingredienteNombre"));
+        ingredienteCol.setCellValueFactory(new PropertyValueFactory<IngredienteProducto, String>("NombreIngrediente"));
         ingredienteCol.setPrefWidth(300);
 
         TableColumn<IngredienteProducto, String> cantidadCol = new TableColumn<>("Cantidad");

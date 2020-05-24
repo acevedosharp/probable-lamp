@@ -173,7 +173,8 @@
                               </HBox>
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
-                                    <ComboBox fx:id="tipoRegistro" prefWidth="150.0" promptText="Tipo" />
+                                    <ComboBox fx:id="tipoRegistro" prefHeight="26.0" prefWidth="92.0" promptText="Tipo" />
+                                    <ComboBox fx:id="tiempoRegistro" prefHeight="26.0" prefWidth="90.0" promptText="tiempo" />
                                     <ComboBox fx:id="mesRegistro" prefWidth="166.0" promptText="Seleccionar mes">
                                        <HBox.margin>
                                           <Insets left="20.0" />
@@ -188,11 +189,7 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <TableView fx:id="ingredientesProductoTable1" prefHeight="315.0" prefWidth="200.0">
-                                 <columns>
-                                    <TableColumn prefWidth="250.13336789608002" text="Mes" />
-                                    <TableColumn prefWidth="249.066650390625" text="Pedidos" />
-                                 </columns></TableView>
+                              <TableView fx:id="comportamientoProducto" prefHeight="315.0" prefWidth="200.0" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
