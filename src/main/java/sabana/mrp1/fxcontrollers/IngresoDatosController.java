@@ -41,7 +41,7 @@ public class IngresoDatosController {
     public @FXML Spinner<Integer> numeroPedidos;
     private List<ComportamientoMes> pedidosPorMes;
     public @FXML TableView<ComportamientoMes> comportamientoProducto;
-
+    public @FXML TableView<RegistroVentas> registroVentas;
 
     private final ObservableList<RegistroVentas> RegistroVentasData = FXCollections.observableArrayList();
     private final ObservableList<Producto> productData = FXCollections.observableArrayList();
@@ -49,6 +49,7 @@ public class IngresoDatosController {
     private final ObservableList<String> tipos = FXCollections.observableArrayList();
     private final ObservableList<String> tiempo = FXCollections.observableArrayList();
     private final ObservableList<Integer> meses = FXCollections.observableArrayList();
+    private final ObservableList<RegistroVentas> registroData = FXCollections.observableArrayList();
 
 
     public IngresoDatosController(ApplicationContext context, RegistroVentasRepository registroVentasRepository, ProductoRepository productRepository, ComportamientoMesRepository comportamientoRepository) {
@@ -64,6 +65,7 @@ public class IngresoDatosController {
         resetComboBox();
         setUpSpinners();
         setUpComportamientoTable();
+        setUpRegistroProducto();
 
     }
 
@@ -75,11 +77,18 @@ public class IngresoDatosController {
     }
 
     public @FXML void acceptNewRegister(ActionEvent actionEvent) {
-        /**RegistroVentas ventas= new RegistroVentas(
+        updateAllSpinnersTypedValues();
+
+        RegistroVentas ventas= new RegistroVentas(
          null,
          tipoRegistro.getValue(),
-         tiempoRegistro.getValue(),
-         );*/
+         tiempoRegistro.getValue(),comportamientoData
+         );
+        registroData.add(ventas);
+
+        updateRegistroData();
+        resetComboBox();
+        clearNewRegistroDatosAndHide();
 
     }
 
@@ -111,6 +120,71 @@ public class IngresoDatosController {
         //noinspection unchecked
         comportamientoProducto.getColumns().addAll(mes, pedidos);
         comportamientoProducto.setItems(comportamientoData);
+    }
+
+    private void setUpRegistroProducto() {
+        TableColumn<RegistroVentas, String> NombreProducto = new TableColumn<>("Producto");
+        NombreProducto.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
+        NombreProducto.setPrefWidth(196);
+
+        TableColumn<RegistroVentas, String> Enero = new TableColumn<>("JAN");
+        Enero.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Enero.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Febrero = new TableColumn<>("FEB");
+        Febrero.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Febrero.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Marzo = new TableColumn<>("MAR");
+        Marzo.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Marzo.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Abril = new TableColumn<>("ABR");
+        Abril.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Abril.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Mayo = new TableColumn<>("MAY");
+        Mayo.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Mayo.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Junio = new TableColumn<>("JUN");
+        Junio.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Junio.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Julio = new TableColumn<>("JUL");
+        Julio.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Julio.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Agosto = new TableColumn<>("AUG");
+        Agosto.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Agosto.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Septiembre = new TableColumn<>("SEP");
+        Septiembre.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Septiembre.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Octubre = new TableColumn<>("OCT");
+        Octubre.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Octubre.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Noviembre = new TableColumn<>("NOV");
+        Noviembre.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Noviembre.setPrefWidth(87);
+
+        TableColumn<RegistroVentas, String> Diciembre = new TableColumn<>("DEC");
+        Diciembre.setCellValueFactory(new PropertyValueFactory<>("ventas"));
+        Diciembre.setPrefWidth(87);
+
+
+        //noinspection unchecked
+        registroVentas.getColumns().addAll(NombreProducto,Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre);
+        registroVentas.setItems(registroData);
+    }
+
+    private void updateRegistroData() {
+        registroData.setAll(registroVentasRepository.findAll());
+        if (productData.size() != 0)
+            registroVentas.getSelectionModel().select(0);
     }
 
 
