@@ -179,15 +179,15 @@ public class ProductosController {
     }
     private void setUpIngredientesProductoTable() {
         TableColumn<IngredienteProducto, String> ingredienteCol = new TableColumn<>("Ingrediente");
-        ingredienteCol.setCellValueFactory(new PropertyValueFactory<IngredienteProducto, String>("ingredienteNombre"));
+        ingredienteCol.setCellValueFactory(new PropertyValueFactory<>("nombreIngrediente"));
         ingredienteCol.setPrefWidth(300);
 
         TableColumn<IngredienteProducto, String> cantidadCol = new TableColumn<>("Cantidad");
-        cantidadCol.setCellValueFactory(new PropertyValueFactory<IngredienteProducto, String>("cantidad"));
+        cantidadCol.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         cantidadCol.setPrefWidth(100);
 
         TableColumn<IngredienteProducto, String> metricaCol = new TableColumn<>("Métrica");
-        metricaCol.setCellValueFactory(new PropertyValueFactory<IngredienteProducto, String>("metrica"));
+        metricaCol.setCellValueFactory(new PropertyValueFactory<>("metrica"));
         metricaCol.setPrefWidth(95);
 
         //noinspection unchecked
