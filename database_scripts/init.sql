@@ -1,4 +1,3 @@
-
 create table producto
 (
 	producto_id int auto_increment,
@@ -61,22 +60,3 @@ create table comportamiento_mes
 		foreign key (registro_ventas) references registro_ventas (inventario_id)
 			on update cascade on delete cascade
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
