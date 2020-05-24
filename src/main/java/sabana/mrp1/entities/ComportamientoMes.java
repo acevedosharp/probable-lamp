@@ -16,9 +16,12 @@ public class ComportamientoMes {
     private @Id @Column(name = "comportamiento_mes_id") Integer productoId;
 
     private @ManyToOne @JoinColumn(name = "registro_ventas") RegistroVentas registroVentas;
-    private @ManyToOne @JoinColumn(name = "producto") Producto producto;
     private @Column(name = "mes") Integer mes;
     private @Column(name = "ventas") Integer ventas;
+
+    public Integer getMes(Integer mes){
+        return getMes();
+    }
 
     @Override public String toString() {
         return "Mes: " + mes + " - " + "Ventas: " + ventas;

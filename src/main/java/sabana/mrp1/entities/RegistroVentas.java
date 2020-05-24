@@ -16,12 +16,23 @@ public class RegistroVentas {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private @Id @Column(name = "inventario_id") Integer inventarioId;
-
     private @Column(name = "tipo") String tipo;
     private @Column(name = "tiempo") String tiempo;
+    private @ManyToOne @JoinColumn(name = "producto") Producto producto;
     @OneToMany(mappedBy = "registroVentas",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ComportamientoMes> comportamientosMes;
 
+    public String getNombreProducto(){
+        return getProducto().getNombre();
+    }
+
+    public Integer getEnero(){
+        return comportamientosMes.get(0).getVentas();
+    }
+
+    public Integer getFebrero(){
+        return comportamientosMes.get(1).getVentas();
+    }
 
     @Override public String toString() {
         StringBuilder res = new StringBuilder();
