@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class OrdenCompraMes {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private @Id @Column(name = "orden_compra") Integer ordenCompraId;
+    private @Id @Column(name = "orden_compra_id") Integer ordenCompraId;
 
     private @ManyToOne @JoinColumn(name = "ingrediente") Ingrediente ingrediente;
     private @Column(name = "cantidad") Integer cantidad;
