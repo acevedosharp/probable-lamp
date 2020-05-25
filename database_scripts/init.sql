@@ -53,7 +53,7 @@ create table comportamiento_mes
 	comportamiento_mes_id int auto_increment,
 	registro_ventas int not null,
 	mes int not null,
-	ventas int not null,
+	ventas double not null,
 	constraint comportamiento_mes_pk
 		primary key (comportamiento_mes_id),
 	constraint comportamiento_mes_registro_ventas_inventario_id_fk

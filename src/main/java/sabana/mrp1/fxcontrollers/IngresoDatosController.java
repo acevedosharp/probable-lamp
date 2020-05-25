@@ -21,10 +21,7 @@ import sabana.mrp1.repositories.RegistroVentasPersistRepository;
 import sabana.mrp1.repositories.RegistroVentasRepository;
 
 import javax.swing.*;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 @Component
 public class IngresoDatosController {
@@ -46,12 +43,16 @@ public class IngresoDatosController {
     public @FXML
     ComboBox<String> tiempoRegistro;
     public @FXML
-    Spinner<Integer> numeroPedidos;
+    Spinner<Double> numeroPedidos;
     private List<ComportamientoMes> pedidosPorMes;
     public @FXML
     TableView<ComportamientoMes> comportamientoProducto;
     public @FXML
     TableView<RegistroVentas> registroVentas;
+    public @FXML
+    TextField eventoDeterministico;
+    public @FXML
+    TextField eventoProbabilistico;
 
     private final ObservableList<RegistroVentas> registroVentasData = FXCollections.observableArrayList();
     private final ObservableList<Producto> productData = FXCollections.observableArrayList();
@@ -87,8 +88,9 @@ public class IngresoDatosController {
         newRegistroDatos.setVisible(true);
     }
 
-    public @FXML void eliminarRegistros(){
-        RegistroVentas registro=registroVentas.getSelectionModel().getSelectedItem();
+    public @FXML
+    void eliminarRegistros() {
+        RegistroVentas registro = registroVentas.getSelectionModel().getSelectedItem();
         registroVentasRepository.delete(registro);
         updateRegistroData();
         resetComboBox();
@@ -118,22 +120,29 @@ public class IngresoDatosController {
                 comportamientoRepository.save(comportamiento);
             }
 
+
             registroVentasData.setAll(registroVentasRepository.findAll());
             updateComboBoxCompleto(productos.getValue());
             clearNewRegistroDatosAndHide();
             resetComboBox();
             productos.setDisable(false);
 
+
         } else {
             System.out.println("Complete todos los registros, hay: " + comportamientoData.size());
         }
 
-        if(registroVentasData.size()==productData.size()){
+        int contador = registroVentasData.size();
+
+        if (contador == productData.size()) {
             tipoRegistro.setDisable(false);
             tiempoRegistro.setDisable(false);
+            registroVentasData.clear();
+            updateComboBoxTipoTiempo(tipoRegistro.getValue(), tiempoRegistro.getValue());
+
         }
 
-        System.out.println(comportamientoData.toString() + comportamientoData.size());
+        System.out.println(comportamientoData.toString() + comportamientoData.size() + contador);
 
     }
 
@@ -177,6 +186,68 @@ public class IngresoDatosController {
     public @FXML
     void proyectarDemanda() {
 
+        RegistroVentas prediccionAnterior;
+        RegistroVentas realAnterior;
+        RegistroVentasPersist proyeccion;
+        List<RegistroVentas> prediccionAnteriorProducto = new ArrayList<>();
+        List<RegistroVentas> realAnteriorProducto = new ArrayList<>();
+        List<ComportamientoMes> comportamientoProyeccion = new ArrayList<>();
+
+        if(eventoDeterministico.getText().equals("") || eventoProbabilistico.getText().equals("")) {
+            System.out.println("Ingrese el porcentaje de afectacion en la demanda para cada evento");
+        }else{
+
+            double ed=Double.parseDouble(eventoDeterministico.getText());
+            double ep=Double.parseDouble(eventoProbabilistico.getText());
+            double eventos=(ed+ep)/2;
+
+            for (int i = 0; i < registroVentasRepository.count(); i++) {
+
+                int id = registroVentasRepository.findAll().get(i).getInventarioId();
+
+                if (registroVentasRepository.findById(id).get().getTipo().equals("Prediccion") && registroVentasRepository.findById(id).get().getTiempo().equals("Anterior")) {
+                    prediccionAnterior = registroVentasRepository.findAll().get(i);
+                    prediccionAnteriorProducto.add(prediccionAnterior);
+                    System.out.println(prediccionAnterior.getProducto().getNombre() + prediccionAnterior.getTipo() + prediccionAnterior.getComportamientosMes());
+                } else if (registroVentasRepository.findById(id).get().getTipo().equals("Real") && registroVentasRepository.findById(id).get().getTiempo().equals("Anterior")) {
+                    realAnterior = registroVentasRepository.findAll().get(i);
+                    realAnteriorProducto.add(realAnterior);
+                    System.out.println(realAnterior.getProducto().getNombre() + realAnterior.getTipo() + realAnterior.getComportamientosMes());
+                }
+            }
+
+            for (int i = 0; i < prediccionAnteriorProducto.size(); i++) {
+                for (int j = 0; j < realAnteriorProducto.size(); j++) {
+                    if (prediccionAnteriorProducto.get(i).getProducto().getNombre().equals(realAnteriorProducto.get(j).getProducto().getNombre())) {
+                        for (int k = 0; k < 12; k++) {
+
+                            double ventasProyectadas = ((prediccionAnteriorProducto.get(i).getComportamientosMes().get(k).getVentas() + realAnteriorProducto.get(j).getComportamientosMes().get(k).getVentas()) / 2)*eventos;
+                            ComportamientoMes proyeccionComportamiento = new ComportamientoMes(null, null, prediccionAnteriorProducto.get(i).getComportamientosMes().get(k).getMes(), ventasProyectadas);
+                            comportamientoProyeccion.add(proyeccionComportamiento);
+                            comportamientoData.add(proyeccionComportamiento);
+                        }
+
+                        proyeccion = new RegistroVentasPersist(null, "Prediccion", "Futuro", prediccionAnteriorProducto.get(i).getProducto());
+
+
+                        Integer idRegistro = registroVentasPersist.saveAndFlush(proyeccion).getInventarioId();
+
+                        for (ComportamientoMes comportamiento : comportamientoData) {
+                            //noinspection OptionalGetWithoutIsPresent
+                            comportamiento.setRegistroVentas(registroVentasRepository.findById(idRegistro).get());
+                            comportamientoRepository.save(comportamiento);
+                        }
+
+                        System.out.println("El comportamiento es:" + comportamientoData);
+                        System.out.println("La proyeccion es:" + proyeccion + "----" + idRegistro);
+                        comportamientoData.clear();
+                    }
+
+
+                    registroVentasData.setAll(registroVentasRepository.findAll());
+                }
+            }
+        }
 
     }
 
@@ -198,7 +269,15 @@ public class IngresoDatosController {
     private void setUpRegistroProducto() {
         TableColumn<RegistroVentas, String> NombreProducto = new TableColumn<>("Producto");
         NombreProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
-        NombreProducto.setPrefWidth(196);
+        NombreProducto.setPrefWidth(135);
+
+        TableColumn<RegistroVentas, String> Tipo = new TableColumn<>("Tipo");
+        Tipo.setCellValueFactory(new PropertyValueFactory<>("tipoRegistro"));
+        Tipo.setPrefWidth(105);
+
+        TableColumn<RegistroVentas, String> Tiempo = new TableColumn<>("Tiempo");
+        Tiempo.setCellValueFactory(new PropertyValueFactory<>("tiempoRegistro"));
+        Tiempo.setPrefWidth(90);
 
         TableColumn<RegistroVentas, String> Enero = new TableColumn<>("JAN");
 
@@ -250,8 +329,10 @@ public class IngresoDatosController {
         Diciembre.setPrefWidth(87);
 
         //noinspection unchecked
-        registroVentas.getColumns().addAll(NombreProducto, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre);
+        registroVentas.getColumns().addAll(NombreProducto, Tipo, Tiempo, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre);
+
         registroVentas.setItems(registroVentasData);
+
 
         if (registroVentasData.size() != 0)
             registroVentas.getSelectionModel().select(0);
@@ -277,14 +358,14 @@ public class IngresoDatosController {
         setSpinnerValue(numeroPedidos, 50);
     }
 
-    private void setSpinnerValue(Spinner<Integer> spinner, int value) {
+    private void setSpinnerValue(Spinner<Double> spinner, double value) {
         spinner.getValueFactory().setValue(value);
     }
 
     private void resetComboBox() {
         productos.setItems(productData);
         tipos.setAll("Prediccion", "Real");
-        tiempo.setAll("Anterior", "futuro");
+        tiempo.setAll("Anterior");
         meses.setAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
         tipoRegistro.setItems(tipos);
         mesRegistro.setItems(meses);
@@ -310,8 +391,15 @@ public class IngresoDatosController {
         productos.getSelectionModel().clearSelection();
     }
 
+    private void updateComboBoxTipoTiempo(String type, String time) {
+        tipos.remove(type);
+        tiempo.remove(time);
+        tiempoRegistro.getSelectionModel().clearSelection();
+        tipoRegistro.getSelectionModel().clearSelection();
+    }
+
     private void setUpSpinners() {
-        numeroPedidos.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 2147483647, 50, 50));
+        numeroPedidos.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, 2147483647, 50, 50));
 
     }
 
@@ -329,8 +417,8 @@ public class IngresoDatosController {
         updateSpinnerTypedValue(numeroPedidos);
     }
 
-    private void updateSpinnerTypedValue(Spinner<Integer> spinner) {
-        int typedValue = Integer.parseInt(spinner.getEditor().getText());
+    private void updateSpinnerTypedValue(Spinner<Double> spinner) {
+        double typedValue = Integer.parseInt(spinner.getEditor().getText());
 
         spinner.getValueFactory().setValue(typedValue);
     }

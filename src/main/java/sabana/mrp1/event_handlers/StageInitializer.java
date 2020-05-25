@@ -38,8 +38,9 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
             stage.setTitle("MRP1 probable-lamp");
             stage.getIcons().add(new Image("/static/icon_logo.png"));
             stage.show();
-            stage.setMinWidth(1408);
+            stage.setMinWidth(1540);
             stage.setMinHeight(720);
+            stage.centerOnScreen();
         }
         catch (IOException e) {
             e.printStackTrace();

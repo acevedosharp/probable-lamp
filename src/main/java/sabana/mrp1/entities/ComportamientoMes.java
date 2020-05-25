@@ -17,7 +17,7 @@ public class ComportamientoMes {
 
     private @ManyToOne @JoinColumn(name = "registro_ventas") RegistroVentas registroVentas;
     private @Column(name = "mes") Integer mes;
-    private @Column(name = "ventas") Integer ventas;
+    private @Column(name = "ventas") Double ventas;
 
     public Integer getMes(Integer mes){
         return getMes();
