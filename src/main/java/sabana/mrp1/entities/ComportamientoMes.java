@@ -1,13 +1,7 @@
 package sabana.mrp1.entities;
-import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "comportamiento_mes", schema = "mrp")
 public class ComportamientoMes {
@@ -19,8 +13,45 @@ public class ComportamientoMes {
     private @Column(name = "mes") Integer mes;
     private @Column(name = "ventas") Double ventas;
 
-    public Integer getMes(Integer mes){
-        return getMes();
+    public ComportamientoMes() {
+    }
+    public ComportamientoMes(Integer productoId, RegistroVentas registroVentas, Integer mes, Double ventas) {
+        this.productoId = productoId;
+        this.registroVentas = registroVentas;
+        this.mes = mes;
+        this.ventas = ventas;
+    }
+
+    public Integer getProductoId() {
+        return productoId;
+    }
+
+    public void setProductoId(Integer productoId) {
+        this.productoId = productoId;
+    }
+
+    public RegistroVentas getRegistroVentas() {
+        return registroVentas;
+    }
+
+    public void setRegistroVentas(RegistroVentas registroVentas) {
+        this.registroVentas = registroVentas;
+    }
+
+    public Integer getMes() {
+        return mes;
+    }
+
+    public void setMes(Integer mes) {
+        this.mes = mes;
+    }
+
+    public Double getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(Double ventas) {
+        this.ventas = ventas;
     }
 
     @Override public String toString() {
