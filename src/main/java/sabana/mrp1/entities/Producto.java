@@ -3,6 +3,7 @@ package sabana.mrp1.entities;
 import javax.persistence.*;
 import java.util.Set;
 
+@Entity
 @Table(name = "producto", schema = "mrp")
 public class Producto {
 
@@ -19,7 +20,8 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String nombre, Integer precioVenta, Integer existencias, Set<IngredienteProducto> ingredientesProducto) {
+    public Producto(Integer productoId, String nombre, Integer precioVenta, Integer existencias, Set<IngredienteProducto> ingredientesProducto) {
+        this.productoId = productoId;
         this.nombre = nombre;
         this.precioVenta = precioVenta;
         this.existencias = existencias;

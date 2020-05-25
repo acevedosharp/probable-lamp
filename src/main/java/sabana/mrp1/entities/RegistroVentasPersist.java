@@ -11,7 +11,7 @@ public class RegistroVentasPersist {
 
     private @Column(name = "tipo") String tipo;
     private @Column(name = "tiempo") String tiempo;
-    @SuppressWarnings("JpaAttributeTypeInspection") private @ManyToOne @JoinColumn(name = "producto") Producto producto;
+    private @ManyToOne @JoinColumn(name = "producto") Producto producto;
 
     public RegistroVentasPersist() {
     }

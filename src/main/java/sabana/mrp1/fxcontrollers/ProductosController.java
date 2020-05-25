@@ -111,8 +111,8 @@ public class ProductosController {
                 null,
                 null,
                 ingredienteSnapshot,
-                cantidadIngredienteSpinner.getValue()
-        ));
+                cantidadIngredienteSpinner.getValue())
+        );
 
         updateComboBox(ingredienteSnapshot);
         setSpinnerValue(cantidadIngredienteSpinner, 1);

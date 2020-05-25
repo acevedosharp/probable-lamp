@@ -11,7 +11,7 @@ public class RegistroVentas {
     private @Id @Column(name = "inventario_id") Integer inventarioId;
     private @Column(name = "tipo") String tipo;
     private @Column(name = "tiempo") String tiempo;
-    @SuppressWarnings("JpaAttributeTypeInspection") private @ManyToOne @JoinColumn(name = "producto") Producto producto;
+    private @ManyToOne @JoinColumn(name = "producto") Producto producto;
     @OneToMany(mappedBy = "registroVentas",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ComportamientoMes> comportamientosMes;
 
