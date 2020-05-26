@@ -135,8 +135,7 @@ public class IngresoDatosController {
         int contador = registroVentasData.size();
 
         if (contador == productData.size()) {
-            tipoRegistro.setDisable(false);
-            tiempoRegistro.setDisable(false);
+
             registroVentasData.clear();
             updateComboBoxTipoTiempo(tipoRegistro.getValue(), tiempoRegistro.getValue());
 
@@ -167,8 +166,7 @@ public class IngresoDatosController {
             System.out.println("Seleccione el producto");
         } else {
             productos.setDisable(true);
-            tipoRegistro.setDisable(true);
-            tiempoRegistro.setDisable(true);
+
 
             ComportamientoMes pxm = new ComportamientoMes(
                     null,
