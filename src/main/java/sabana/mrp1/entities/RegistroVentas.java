@@ -1,15 +1,8 @@
 package sabana.mrp1.entities;
 
-import lombok.*;
-
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "registro_ventas", schema = "mrp")
 public class RegistroVentas {
@@ -21,6 +14,57 @@ public class RegistroVentas {
     private @ManyToOne @JoinColumn(name = "producto") Producto producto;
     @OneToMany(mappedBy = "registroVentas",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ComportamientoMes> comportamientosMes;
+
+    public RegistroVentas() {
+    }
+
+    public RegistroVentas(Integer inventarioId, String tipo, String tiempo, Producto producto, List<ComportamientoMes> comportamientosMes) {
+        this.inventarioId = inventarioId;
+        this.tipo = tipo;
+        this.tiempo = tiempo;
+        this.producto = producto;
+        this.comportamientosMes = comportamientosMes;
+    }
+
+    public Integer getInventarioId() {
+        return inventarioId;
+    }
+
+    public void setInventarioId(Integer inventarioId) {
+        this.inventarioId = inventarioId;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(String tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public List<ComportamientoMes> getComportamientosMes() {
+        return comportamientosMes;
+    }
+
+    public void setComportamientosMes(List<ComportamientoMes> comportamientosMes) {
+        this.comportamientosMes = comportamientosMes;
+    }
 
     public String getNombreProducto(){
         return getProducto().getNombre();

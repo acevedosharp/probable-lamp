@@ -60,3 +60,17 @@ create table comportamiento_mes
 		foreign key (registro_ventas) references registro_ventas (inventario_id)
 			on update cascade on delete cascade
 );
+
+create table orden_compra_mes
+(
+	orden_compra_id int auto_increment,
+	ingrediente int not null,
+	cantidad int not null,
+	mes int not null,
+	constraint orden_compra_mes_pk
+		primary key (orden_compra_id),
+	constraint orden_compra_mes_ingrediente_ingrediente_id_fk
+		foreign key (ingrediente) references ingrediente (ingrediente_id)
+			on update cascade
+);
+

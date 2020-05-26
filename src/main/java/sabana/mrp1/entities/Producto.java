@@ -1,16 +1,9 @@
 package sabana.mrp1.entities;
 
-import lombok.*;
-
 import javax.persistence.*;
 import java.util.Set;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@ToString
 @Table(name = "producto", schema = "mrp")
 public class Producto {
 
@@ -23,6 +16,57 @@ public class Producto {
 
     @OneToMany(mappedBy = "producto",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<IngredienteProducto> ingredientesProducto;
+
+    public Producto() {
+    }
+
+    public Producto(Integer productoId, String nombre, Integer precioVenta, Integer existencias, Set<IngredienteProducto> ingredientesProducto) {
+        this.productoId = productoId;
+        this.nombre = nombre;
+        this.precioVenta = precioVenta;
+        this.existencias = existencias;
+        this.ingredientesProducto = ingredientesProducto;
+    }
+
+    public Integer getProductoId() {
+        return productoId;
+    }
+
+    public void setProductoId(Integer productoId) {
+        this.productoId = productoId;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Integer getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(Integer precioVenta) {
+        this.precioVenta = precioVenta;
+    }
+
+    public Integer getExistencias() {
+        return existencias;
+    }
+
+    public void setExistencias(Integer existencias) {
+        this.existencias = existencias;
+    }
+
+    public Set<IngredienteProducto> getIngredientesProducto() {
+        return ingredientesProducto;
+    }
+
+    public void setIngredientesProducto(Set<IngredienteProducto> ingredientesProducto) {
+        this.ingredientesProducto = ingredientesProducto;
+    }
 
     public String getIngredientesRepresentation() {
         if (ingredientesProducto.size() > 0) {
