@@ -1,48 +1,59 @@
 package sabana.mrp1.fxcontrollers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import sabana.mrp1.entities.Ingrediente;
+import sabana.mrp1.entities.OrdenCompraMes;
 import sabana.mrp1.events.SceneChangeEvent;
 import sabana.mrp1.repositories.IngredienteRepository;
+import sabana.mrp1.repositories.OrdenCompraMesRepository;
+import sabana.mrp1.services.InventoryPlanningService;
 
-import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class PrediccionController {
     private final ApplicationContext context;
     private final IngredienteRepository ingredienteRepository;
+    private final InventoryPlanningService inventoryPlanningService;
 
     @FXML TreeView<String> prediccionMeses;
 
     private final ObservableList<Ingrediente> ingredientesData = FXCollections.observableArrayList();
+    private final TreeItem<String> root = new TreeItem<>("Predicción Meses");
 
-    public PrediccionController(ApplicationContext context, IngredienteRepository ingredienteRepository) {
+    public PrediccionController(ApplicationContext context, IngredienteRepository ingredienteRepository, InventoryPlanningService inventoryPlanningService) {
         this.context = context;
         this.ingredienteRepository = ingredienteRepository;
+        this.inventoryPlanningService = inventoryPlanningService;
     }
 
-    public void initialize(){
-
+    public void initialize() {
         ingredientesData.setAll(ingredienteRepository.findAll());
 
-        try{
-            setUpPrediccionMesesTree();
-        }
-        catch(Exception e){
-            System.out.println(e.toString());
-        }
+        setUpPrediccionMesesTree();
     }
 
-    private void setUpPrediccionMesesTree(){
-        TreeItem<String> root, enero, febrero, marzo, abril, mayo, junio, julio, agosto, sept, octubre, nov, dic;
+    public @FXML void executePrediction() {
+        // Execute service this way so UI doesn't freeze
+        Platform.runLater(inventoryPlanningService::planUsingCurrentFuturePrediction);
 
-        root = new TreeItem<>("Predicción Meses");
+        Platform.runLater(this::updateUIWithOrdenes);
+    }
+
+    private void setUpPrediccionMesesTree() {
+        TreeItem<String> enero, febrero, marzo, abril, mayo, junio, julio, agosto, sept, octubre, nov, dic;
 
         enero = new TreeItem<>("Predicción Enero");
         febrero = new TreeItem<>("Predicción Febrero");
@@ -59,27 +70,45 @@ public class PrediccionController {
 
         root.setExpanded(true);
 
-        root.getChildren().addAll(enero, febrero, marzo, abril, mayo, junio, julio, agosto, sept, octubre, nov, dic);
+        //noinspection unchecked
+        root.getChildren().setAll(enero, febrero, marzo, abril, mayo, junio, julio, agosto, sept, octubre, nov, dic);
 
-        System.out.println(ingredientesData);
-
-        for (Ingrediente ingrediente : ingredientesData){
-            enero.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            febrero.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            marzo.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            abril.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            mayo.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            junio.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            julio.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            agosto.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            sept.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            octubre.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            nov.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-            dic.getChildren().addAll(new TreeItem<>(ingrediente.getNombre()));
-        }
+        updateUIWithOrdenes();
 
         prediccionMeses.setRoot(root);
         prediccionMeses.setShowRoot(false);
+    }
+
+    private void updateUIWithOrdenes() {
+        if (inventoryPlanningService.existOrdenes()) {
+
+            Map<Integer, List<OrdenCompraMes>> ordenes = inventoryPlanningService.groupedByMonth();
+
+            ordenes.forEach((integer, ordenesMes) ->
+                    root.getChildren().get(integer - 1).getChildren().setAll(
+                            ordenesMes.stream().map(
+                                    ordenCompraMes ->
+                                            new TreeItem<>(ordenCompraMes.getIngrediente().getNombre() + " -  x" + ordenCompraMes.getCantidad() + " " + ordenCompraMes.getIngrediente().getMetrica())
+                            ).collect(Collectors.toList())
+
+                    )
+            );
+
+            root.getChildren().forEach(stringTreeItem -> stringTreeItem.setExpanded(true));
+        } else {
+            root.getChildren().forEach(item -> item.getChildren().clear());
+
+            ingredientesData.forEach(ingrediente ->
+                    root.getChildren().forEach(stringTreeItem ->
+                            stringTreeItem.getChildren().add(new TreeItem<>(ingrediente.getNombre() + "- Aún no hay orden de compra")))
+            );
+        }
+    }
+
+    public void clearOrdenes() {
+        inventoryPlanningService.clearOrdenes();
+
+        Platform.runLater(this::updateUIWithOrdenes);
     }
 
     // Scene change menu logic
@@ -92,5 +121,4 @@ public class PrediccionController {
     public void goToPrediccionModule() {
         context.publishEvent(new SceneChangeEvent("fxml/prediccion.fxml"));
     }
-
 }

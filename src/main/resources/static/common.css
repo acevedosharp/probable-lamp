@@ -128,7 +128,6 @@
     -fx-background-color: rgb(242, 110,62);
     -fx-padding: 10px 20px;
     -fx-text-alignment: center;
-    -fx-text-fill: black;
 }
 
 .btn-orange:hover {

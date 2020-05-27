@@ -1,18 +1,17 @@
 package sabana.mrp1.services
 
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import sabana.mrp1.entities.*
 import sabana.mrp1.repositories.IngredienteRepository
 import sabana.mrp1.repositories.OrdenCompraMesRepository
 import sabana.mrp1.repositories.ProductoRepository
 import sabana.mrp1.repositories.RegistroVentasRepository
+import kotlin.system.measureTimeMillis
 
-@Component
+@Service
 class InventoryPlanningService(
         private val registroVentasRepository: RegistroVentasRepository,
-        private val ordenCompraMesRepository: OrdenCompraMesRepository,
-        private val ingredienteRepository: IngredienteRepository,
-        private val productoRepository: ProductoRepository
+        private val ordenCompraMesRepository: OrdenCompraMesRepository
 ) {
 
     inner class MonthlyIngredientWrapper(val mes: Int, val ingrediente: Ingrediente, val cantidad: Int) {
@@ -21,8 +20,14 @@ class InventoryPlanningService(
         }
     }
 
-    init {
-        // Desired output is: Mes (index from 0-11), Ingrediente, Cantidad represented as Map<Int, Pair<Ingrediente, Int>>.
+
+    fun planUsingCurrentFuturePrediction(): Unit {
+        // Desired result is: Mes (index from 0-11), Ingrediente, Cantidad represented as Map<Int, Pair<Ingrediente, Int>>.
+
+        var previousTimestamp:Long = System.currentTimeMillis()
+        var tempCurrent:Long;
+
+        println("Began transformations at: ${previousTimestamp}")
 
         // Step 1: We extract Producto and Comportamientos from the RegistroVentasRepository. Size is the number of Productos.
         val compToProd: List<Pair<List<ComportamientoMes>, Producto>> =
@@ -62,19 +67,47 @@ class InventoryPlanningService(
                             }
                         }.flatten()
 
-        // Step 5
-        val aggregatedWrappers =
+        // Step 5: finally List<MonthlyIngredientWrapper>
+        val accumulatedWrappers =
                 wrapper
+                        .groupBy { it.mes }
+                        .values
+                        .map { it.groupBy { it.ingrediente } } // List<Map<Ingrediente, List<MonthlyIngredientWrapper>>>
+                        .mapIndexed { index, item ->
+                            item.map {
+                                MonthlyIngredientWrapper(
+                                        index + 1,
+                                        it.key,
+                                        it.value.sumBy { it.cantidad }
+                                )
+                            }
+                        }.flatten()
 
-//                        .groupBy { it.mes }
+        tempCurrent = System.currentTimeMillis()
+        println("Ended transformations at: ${tempCurrent} - delta: ${tempCurrent - previousTimestamp}")
 
 
+        previousTimestamp = System.currentTimeMillis()
+        println("Began writing at: ${previousTimestamp}")
 
-        println(aggregatedWrappers)
+        // Step 6: Persist to db
+        accumulatedWrappers.forEach {
+            ordenCompraMesRepository.save(OrdenCompraMes(
+                    null,
+                    it.ingrediente,
+                    it.cantidad,
+                    it.mes
+            ))
+        }
 
+        tempCurrent = System.currentTimeMillis()
+        println("Ended writing at: ${tempCurrent} - delta: ${tempCurrent - previousTimestamp}")
     }
 
-    fun planUsingCurrentPrediction(): Unit {
+    fun groupedByMonth(): Map<Int, List<OrdenCompraMes>> = ordenCompraMesRepository.findAll().groupBy { it.mes }
 
-    }
+    fun existOrdenes(): Boolean = ordenCompraMesRepository.count() != 0L
+
+    fun clearOrdenes(): Unit = ordenCompraMesRepository.deleteAll()
+
 }
