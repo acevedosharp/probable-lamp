@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import org.springframework.context.ApplicationContext;
@@ -28,7 +29,8 @@ public class PrediccionController {
     private final IngredienteRepository ingredienteRepository;
     private final InventoryPlanningService inventoryPlanningService;
 
-    @FXML TreeView<String> prediccionMeses;
+    public @FXML Button predictButton;
+    public @FXML TreeView<String> prediccionMeses;
 
     private final ObservableList<Ingrediente> ingredientesData = FXCollections.observableArrayList();
     private final TreeItem<String> root = new TreeItem<>("Predicción Meses");
@@ -80,6 +82,7 @@ public class PrediccionController {
     }
 
     private void updateUIWithOrdenes() {
+        predictButton.setDisable(true);
         if (inventoryPlanningService.existOrdenes()) {
 
             Map<Integer, List<OrdenCompraMes>> ordenes = inventoryPlanningService.groupedByMonth();
@@ -96,6 +99,7 @@ public class PrediccionController {
 
             root.getChildren().forEach(stringTreeItem -> stringTreeItem.setExpanded(true));
         } else {
+            predictButton.setDisable(false);
             root.getChildren().forEach(item -> item.getChildren().clear());
 
             ingredientesData.forEach(ingrediente ->

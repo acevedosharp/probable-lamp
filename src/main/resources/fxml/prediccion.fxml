@@ -74,7 +74,7 @@
             </ScrollPane>
             <HBox>
                <children>
-                  <Button mnemonicParsing="false" onAction="#executePrediction" prefWidth="1300.0" style="-fx-background-radius: 0; -fx-border-radius: 0;" styleClass="btn-orange" text="Generar órdenes de compra" textFill="WHITE">
+                  <Button fx:id="predictButton" mnemonicParsing="false" onAction="#executePrediction" prefWidth="1300.0" style="-fx-background-radius: 0; -fx-border-radius: 0;" styleClass="btn-orange" text="Generar órdenes de compra" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
