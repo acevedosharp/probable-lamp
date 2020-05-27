@@ -2,11 +2,8 @@ package sabana.mrp1.services
 
 import org.springframework.stereotype.Service
 import sabana.mrp1.entities.*
-import sabana.mrp1.repositories.IngredienteRepository
 import sabana.mrp1.repositories.OrdenCompraMesRepository
-import sabana.mrp1.repositories.ProductoRepository
 import sabana.mrp1.repositories.RegistroVentasRepository
-import kotlin.system.measureTimeMillis
 
 @Service
 class InventoryPlanningService(
@@ -91,14 +88,14 @@ class InventoryPlanningService(
         println("Began writing at: ${previousTimestamp}")
 
         // Step 6: Persist to db
-        accumulatedWrappers.forEach {
-            ordenCompraMesRepository.save(OrdenCompraMes(
+        ordenCompraMesRepository.saveAll(accumulatedWrappers.map {
+            OrdenCompraMes(
                     null,
                     it.ingrediente,
                     it.cantidad,
                     it.mes
-            ))
-        }
+            )
+        })
 
         tempCurrent = System.currentTimeMillis()
         println("Ended writing at: ${tempCurrent} - delta: ${tempCurrent - previousTimestamp}")
