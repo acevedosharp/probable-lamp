@@ -14,11 +14,8 @@ import sabana.mrp1.entities.Ingrediente;
 import sabana.mrp1.entities.OrdenCompraMes;
 import sabana.mrp1.events.SceneChangeEvent;
 import sabana.mrp1.repositories.IngredienteRepository;
-import sabana.mrp1.repositories.OrdenCompraMesRepository;
 import sabana.mrp1.services.InventoryPlanningService;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

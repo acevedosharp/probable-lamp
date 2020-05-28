@@ -1,5 +1,6 @@
 package sabana.mrp1.fxcontrollers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -184,69 +185,70 @@ public class IngresoDatosController {
     public @FXML
     void proyectarDemanda() {
 
-        RegistroVentas prediccionAnterior;
-        RegistroVentas realAnterior;
-        RegistroVentasPersist proyeccion;
-        List<RegistroVentas> prediccionAnteriorProducto = new ArrayList<>();
-        List<RegistroVentas> realAnteriorProducto = new ArrayList<>();
-        List<ComportamientoMes> comportamientoProyeccion = new ArrayList<>();
+        Platform.runLater(() -> {
+            RegistroVentas prediccionAnterior;
+            RegistroVentas realAnterior;
+            RegistroVentasPersist proyeccion;
+            List<RegistroVentas> prediccionAnteriorProducto = new ArrayList<>();
+            List<RegistroVentas> realAnteriorProducto = new ArrayList<>();
+            List<ComportamientoMes> comportamientoProyeccion = new ArrayList<>();
 
-        if(eventoDeterministico.getText().equals("") || eventoProbabilistico.getText().equals("")) {
-            System.out.println("Ingrese el porcentaje de afectacion en la demanda para cada evento");
-        }else{
+            if(eventoDeterministico.getText().equals("") || eventoProbabilistico.getText().equals("")) {
+                System.out.println("Ingrese el porcentaje de afectacion en la demanda para cada evento");
+            }else{
 
-            double ed=Double.parseDouble(eventoDeterministico.getText());
-            double ep=Double.parseDouble(eventoProbabilistico.getText());
-            double eventos=(ed+ep)/2;
+                double ed=Double.parseDouble(eventoDeterministico.getText());
+                double ep=Double.parseDouble(eventoProbabilistico.getText());
+                double eventos=(ed+ep)/2;
 
-            for (int i = 0; i < registroVentasRepository.count(); i++) {
+                for (int i = 0; i < registroVentasRepository.count(); i++) {
 
-                int id = registroVentasRepository.findAll().get(i).getInventarioId();
+                    int id = registroVentasRepository.findAll().get(i).getInventarioId();
 
-                if (registroVentasRepository.findById(id).get().getTipo().equals("Prediccion") && registroVentasRepository.findById(id).get().getTiempo().equals("Anterior")) {
-                    prediccionAnterior = registroVentasRepository.findAll().get(i);
-                    prediccionAnteriorProducto.add(prediccionAnterior);
-                    System.out.println(prediccionAnterior.getProducto().getNombre() + prediccionAnterior.getTipo() + prediccionAnterior.getComportamientosMes());
-                } else if (registroVentasRepository.findById(id).get().getTipo().equals("Real") && registroVentasRepository.findById(id).get().getTiempo().equals("Anterior")) {
-                    realAnterior = registroVentasRepository.findAll().get(i);
-                    realAnteriorProducto.add(realAnterior);
-                    System.out.println(realAnterior.getProducto().getNombre() + realAnterior.getTipo() + realAnterior.getComportamientosMes());
-                }
-            }
-
-            for (int i = 0; i < prediccionAnteriorProducto.size(); i++) {
-                for (int j = 0; j < realAnteriorProducto.size(); j++) {
-                    if (prediccionAnteriorProducto.get(i).getProducto().getNombre().equals(realAnteriorProducto.get(j).getProducto().getNombre())) {
-                        for (int k = 0; k < 12; k++) {
-
-                            double ventasProyectadas = ((prediccionAnteriorProducto.get(i).getComportamientosMes().get(k).getVentas() + realAnteriorProducto.get(j).getComportamientosMes().get(k).getVentas()) / 2)*eventos;
-                            ComportamientoMes proyeccionComportamiento = new ComportamientoMes(null, null, prediccionAnteriorProducto.get(i).getComportamientosMes().get(k).getMes(), ventasProyectadas);
-                            comportamientoProyeccion.add(proyeccionComportamiento);
-                            comportamientoData.add(proyeccionComportamiento);
-                        }
-
-                        proyeccion = new RegistroVentasPersist(null, "Prediccion", "Futuro", prediccionAnteriorProducto.get(i).getProducto());
-
-
-                        Integer idRegistro = registroVentasPersist.saveAndFlush(proyeccion).getInventarioId();
-
-                        for (ComportamientoMes comportamiento : comportamientoData) {
-                            //noinspection OptionalGetWithoutIsPresent
-                            comportamiento.setRegistroVentas(registroVentasRepository.findById(idRegistro).get());
-                            comportamientoRepository.save(comportamiento);
-                        }
-
-                        System.out.println("El comportamiento es:" + comportamientoData);
-                        System.out.println("La proyeccion es:" + proyeccion + "----" + idRegistro);
-                        comportamientoData.clear();
+                    if (registroVentasRepository.findById(id).get().getTipo().equals("Prediccion") && registroVentasRepository.findById(id).get().getTiempo().equals("Anterior")) {
+                        prediccionAnterior = registroVentasRepository.findAll().get(i);
+                        prediccionAnteriorProducto.add(prediccionAnterior);
+                        System.out.println(prediccionAnterior.getProducto().getNombre() + prediccionAnterior.getTipo() + prediccionAnterior.getComportamientosMes());
+                    } else if (registroVentasRepository.findById(id).get().getTipo().equals("Real") && registroVentasRepository.findById(id).get().getTiempo().equals("Anterior")) {
+                        realAnterior = registroVentasRepository.findAll().get(i);
+                        realAnteriorProducto.add(realAnterior);
+                        System.out.println(realAnterior.getProducto().getNombre() + realAnterior.getTipo() + realAnterior.getComportamientosMes());
                     }
+                }
+
+                for (int i = 0; i < prediccionAnteriorProducto.size(); i++) {
+                    for (int j = 0; j < realAnteriorProducto.size(); j++) {
+                        if (prediccionAnteriorProducto.get(i).getProducto().getNombre().equals(realAnteriorProducto.get(j).getProducto().getNombre())) {
+                            for (int k = 0; k < 12; k++) {
+
+                                double ventasProyectadas = ((prediccionAnteriorProducto.get(i).getComportamientosMes().get(k).getVentas() + realAnteriorProducto.get(j).getComportamientosMes().get(k).getVentas()) / 2)*eventos;
+                                ComportamientoMes proyeccionComportamiento = new ComportamientoMes(null, null, prediccionAnteriorProducto.get(i).getComportamientosMes().get(k).getMes(), ventasProyectadas);
+                                comportamientoProyeccion.add(proyeccionComportamiento);
+                                comportamientoData.add(proyeccionComportamiento);
+                            }
+
+                            proyeccion = new RegistroVentasPersist(null, "Prediccion", "Futuro", prediccionAnteriorProducto.get(i).getProducto());
 
 
-                    registroVentasData.setAll(registroVentasRepository.findAll());
+                            Integer idRegistro = registroVentasPersist.saveAndFlush(proyeccion).getInventarioId();
+
+                            for (ComportamientoMes comportamiento : comportamientoData) {
+                                //noinspection OptionalGetWithoutIsPresent
+                                comportamiento.setRegistroVentas(registroVentasRepository.findById(idRegistro).get());
+                                comportamientoRepository.save(comportamiento);
+                            }
+
+                            System.out.println("El comportamiento es:" + comportamientoData);
+                            System.out.println("La proyeccion es:" + proyeccion + "----" + idRegistro);
+                            comportamientoData.clear();
+                        }
+
+
+                        registroVentasData.setAll(registroVentasRepository.findAll());
+                    }
                 }
             }
-        }
-
+        });
     }
 
 

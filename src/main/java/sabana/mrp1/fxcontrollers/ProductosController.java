@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import sabana.mrp1.entities.Ingrediente;
 import sabana.mrp1.entities.IngredienteProducto;
@@ -206,7 +207,7 @@ public class ProductosController {
     private void resetComboBox() {
         availableIngredientes.clear();
         ingredienteComboBox.setItems(availableIngredientes);
-        availableIngredientes.setAll(ingredienteRepository.findAll());
+        availableIngredientes.setAll(ingredienteRepository.findAll(Sort.by(Sort.Direction.ASC, "nombre")));
         ingredienteComboBox.getSelectionModel().clearSelection();
     }
     private void updateAllSpinnersTypedValues() {
